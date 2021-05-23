@@ -1,0 +1,9 @@
+server:
+  port: 8081
+mydocument:
+  aws:
+    s3:
+      serviceEndpoint: https://s3.amazonaws.com
+      signingRegion: us-east-1
+      systemBucket: docbankrepositorysystem
+      catModelFile: doc_cat_model2.bin
