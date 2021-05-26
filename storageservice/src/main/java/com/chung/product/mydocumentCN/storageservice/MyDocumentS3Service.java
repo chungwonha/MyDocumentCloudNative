@@ -224,4 +224,11 @@ public class MyDocumentS3Service implements StorageService{
     public void deleteAll() {
 
     }
+
+    @Override
+    public void deleteObject(String bucket, String object) {
+        this.s3client.deleteObject(bucket,object);
+    }
+
+
 }
