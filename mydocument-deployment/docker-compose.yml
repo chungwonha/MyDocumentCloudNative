@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  mydocument-mq-broker:
+    image: "rabbitmq:3-management"
+    container_name: "mydocument-mq-broker"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+  storage-service:
+    image: "chungha/storageservice"
+    container_name: "storage-service"
+    ports:
+      - 8081:8081
+    environment:
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+  

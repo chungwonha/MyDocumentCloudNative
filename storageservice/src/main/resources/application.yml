@@ -14,7 +14,7 @@ mydocument:
       routingKey: mydocument.upload.key
 spring:
   rabbitmq:
-    host: localhost
+    host: mydocument-mq-broker
     port: 5672
     username: ${RABBITMQ_USER}
     password: ${RABBITMQ_PASSWORD}
