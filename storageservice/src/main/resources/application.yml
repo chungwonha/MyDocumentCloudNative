@@ -15,7 +15,20 @@ mydocument:
 spring:
   rabbitmq:
     host: mydocument-mq-broker
+#    host: localhost
     port: 5672
     username: ${RABBITMQ_USER}
     password: ${RABBITMQ_PASSWORD}
     connection-timeout: 15s
+  datasource:
+    username: ${POSTGRES_USER_STORAGEDB}
+    password: ${POSTGRES_PASS_STORAGEDB}
+    url: jdbc:postgresql://mydocument-storage-db:5432/mydocument_storage_db
+#    url: jdbc:postgresql://localhost:5432/polardb_catalog
+    hikari:
+      connection-timeout: 5000 #ms
+      maximum-pool-size: 20
+      pool-name: mydocument-storage-db-pool
+#      pool-name: polardb-catalog-pool
+  jpa:
+    hibernate.ddl-auto: create-drop

@@ -5,6 +5,7 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 //import com.chung.product.mydocument.vo.MyDocumentInS3;
@@ -13,6 +14,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.entity.ContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,10 @@ import java.io.*;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
+/**
+ * Author: Chung Ha
+ *
+ */
 @Service
 @ConfigurationProperties("mydocument.aws.s3")
 public class MyDocumentS3Service implements StorageService{
@@ -36,6 +42,9 @@ public class MyDocumentS3Service implements StorageService{
     private String systemBucket;
     private String catModelFile;
     private String bucket = "docbankrepository";
+
+    @Autowired
+    UploadRecordRepository uploadRecordRepository;
     /**
      * documentName is
      * @param documentName
@@ -64,12 +73,13 @@ public class MyDocumentS3Service implements StorageService{
      * A new folder will be created with userId as its name.
      * documentName+SUFFIX+documentName is a key name for putting an object in S3.
      * If there ia a folder with the userId already existing, it won't do anything.
+     * It returns Entity Tag (ETag) of Object in S3.
      * @param file
      * @param bucketName
      * @param documentName
      * @param ownerId
      */
-    public void upload(File file, String bucketName, String documentName, String ownerId){
+    public String upload(File file, String bucketName, String documentName, String ownerId){
 
         logger.info("******************upload**************************");
         logger.info("this.serviceEndpoint: "+this.serviceEndpoint);
@@ -90,11 +100,13 @@ public class MyDocumentS3Service implements StorageService{
         }
 
         try {
-            this.s3client.putObject(bucketName, ownerId+"/"+documentName, file);
+            PutObjectResult por = this.s3client.putObject(bucketName, ownerId+"/"+documentName, file);
+            return por.getETag();
         } catch (AmazonServiceException e) {
             logger.error(e.getErrorMessage());
             System.exit(1);
         }
+        return null;
     }
 
     private String getFileExtenstion(String documentOrFileName){
@@ -195,7 +207,12 @@ public class MyDocumentS3Service implements StorageService{
                 IOUtils.copy(in, out);
             }
             logger.info(file.getName()+ " upload success");
-            upload(tempFile,this.bucket,file.getOriginalFilename(),ownerId);
+            String etag = upload(tempFile,this.bucket,file.getOriginalFilename(),ownerId);
+            UploadRecord uploadRecord = new UploadRecord();
+            uploadRecord.setDocId(etag);
+            uploadRecord.setUserId(ownerId);
+            uploadRecord.setDocName(file.getOriginalFilename());
+            uploadRecordRepository.save(uploadRecord);
             return StorageServiceConstants.UPLOAD_SUCCESS;
         } catch (IOException e) {
             e.printStackTrace();

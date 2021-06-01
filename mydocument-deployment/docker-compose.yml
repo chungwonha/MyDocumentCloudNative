@@ -19,4 +19,17 @@ services:
       - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - POSTGRES_USER_STORAGEDB=${POSTGRES_USER_STORAGEDB}
+      - POSTGRES_PASS_STORAGEDB=${POSTGRES_PASS_STORAGEDB}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://mydocument-storage-db:5432/mydocument_storage_db
+  mydocument-storage-db:
+    image: "postgres:13"
+    container_name: "mydocument-storage-db"
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER_STORAGEDB}
+      - POSTGRES_PASSWORD=${POSTGRES_PASS_STORAGEDB}
+      - POSTGRES_DB=mydocument_storage_db
+      
   

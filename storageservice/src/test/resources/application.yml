@@ -1,0 +1,21 @@
+server:
+  port: 8081
+mydocument:
+  aws:
+    s3:
+      serviceEndpoint: https://s3.amazonaws.com
+      signingRegion: us-east-1
+      systemBucket: docbankrepositorysystem
+      catModelFile: doc_cat_model2.bin
+  mq:
+    upload:
+      topicExchangeName: myDocumentUploadExchange
+      queueName: myDocumentUploadQuque
+      routingKey: mydocument.upload.key
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:13:///
+  jpa:
+    hibernate.ddl-auto: validate
+  profiles:
+    active: default
