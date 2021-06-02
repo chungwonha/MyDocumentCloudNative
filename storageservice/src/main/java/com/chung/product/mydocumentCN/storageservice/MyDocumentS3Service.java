@@ -40,28 +40,28 @@ public class MyDocumentS3Service implements StorageService{
     private String serviceEndpoint;
     private String signingRegion;
     private String systemBucket;
+    private String userBucket;
     private String catModelFile;
-    private String bucket = "docbankrepository";
+//    private String bucket = "docbankrepository";
 
     @Autowired
     UploadRecordRepository uploadRecordRepository;
     /**
      * documentName is
      * @param documentName
-     * @param bucketName
      * @return
      */
-    public MyDocumentInS3 getDocument(String documentName, String bucketName, String ownerId){
-        logger.info("getDocument for "+ownerId+"/"+documentName +" and " + "bucket: "+bucketName);
+    public MyDocumentInS3 getDocument(String documentName,String ownerId){
+        logger.info("getDocument for "+ownerId+"/"+documentName +" and " + "bucket: "+this.userBucket);
 
         this.s3client = this.getS3Client();
 
         MyDocumentInS3 myDocumentInS3 = new MyDocumentInS3();
-        myDocumentInS3.setDocument(documentName);
-        myDocumentInS3.setBucket(bucketName);
+        myDocumentInS3.setDocument(ownerId+"/"+documentName);
+        myDocumentInS3.setBucket(this.userBucket);
 
         // Get the document from S3
-        S3Object s3object = this.s3client.getObject(bucketName, ownerId+this.SUFFIX+documentName);
+        S3Object s3object = this.s3client.getObject(this.userBucket, ownerId+this.SUFFIX+documentName);
         logger.info("s3object.getKey(): "+s3object.getKey());
         myDocumentInS3.setContentType(s3object.getObjectMetadata().getContentType());
 
@@ -188,6 +188,14 @@ public class MyDocumentS3Service implements StorageService{
         this.catModelFile = catModelFile;
     }
 
+    public String getUserBucket() {
+        return userBucket;
+    }
+
+    public void setUserBucket(String userBucket) {
+        this.userBucket = userBucket;
+    }
+
     @Override
     public void init() {
 
@@ -207,7 +215,7 @@ public class MyDocumentS3Service implements StorageService{
                 IOUtils.copy(in, out);
             }
             logger.info(file.getName()+ " upload success");
-            String etag = upload(tempFile,this.bucket,file.getOriginalFilename(),ownerId);
+            String etag = upload(tempFile,this.userBucket,file.getOriginalFilename(),ownerId);
             UploadRecord uploadRecord = new UploadRecord();
             uploadRecord.setDocId(etag);
             uploadRecord.setUserId(ownerId);

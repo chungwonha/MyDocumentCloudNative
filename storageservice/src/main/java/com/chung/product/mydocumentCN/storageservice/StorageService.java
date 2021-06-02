@@ -21,4 +21,6 @@ public interface StorageService {
     void deleteAll();
 
     void deleteObject(String bucket, String object);
+
+    public MyDocumentInS3 getDocument(String documentName, String ownerId);
 }

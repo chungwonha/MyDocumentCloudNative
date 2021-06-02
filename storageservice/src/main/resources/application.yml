@@ -6,6 +6,7 @@ mydocument:
       serviceEndpoint: https://s3.amazonaws.com
       signingRegion: us-east-1
       systemBucket: docbankrepositorysystem
+      userBucket: docbankrepository
       catModelFile: doc_cat_model2.bin
   mq:
     upload:
@@ -14,8 +15,8 @@ mydocument:
       routingKey: mydocument.upload.key
 spring:
   rabbitmq:
-    host: mydocument-mq-broker
-#    host: localhost
+#    host: mydocument-mq-broker
+    host: ${SPRING_RABBITMQ_HOST}
     port: 5672
     username: ${RABBITMQ_USER}
     password: ${RABBITMQ_PASSWORD}
@@ -23,8 +24,8 @@ spring:
   datasource:
     username: ${POSTGRES_USER_STORAGEDB}
     password: ${POSTGRES_PASS_STORAGEDB}
-    url: jdbc:postgresql://mydocument-storage-db:5432/mydocument_storage_db
-#    url: jdbc:postgresql://localhost:5432/polardb_catalog
+#    url: jdbc:postgresql://mydocument-storage-db:5432/mydocument_storage_db
+    url: jdbc:postgresql://localhost:5432/mydocument_storage_db
     hikari:
       connection-timeout: 5000 #ms
       maximum-pool-size: 20
