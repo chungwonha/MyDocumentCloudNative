@@ -1,0 +1,24 @@
+server:
+  port: 8082
+mydocument:
+  service:
+    storage:
+      serviceEndPoint: ${MYDOCUMENT_SERVICE_STORAGE_SERVICEENDPOINT}
+  aws:
+    s3:
+      serviceEndpoint: https://s3.amazonaws.com
+      signingRegion: us-east-1
+      systemBucket: docbankrepositorysystem
+      catModelFile: doc_cat_model2.bin
+  mq:
+    upload:
+      topicExchangeName: myDocumentUploadExchange
+      queueName: myDocumentUploadQuque
+      routingKey: mydocument.upload.key
+spring:
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST}
+    port: 5672
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASSWORD}
+    connection-timeout: 15s
