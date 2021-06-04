@@ -10,6 +10,9 @@ mydocument:
       signingRegion: us-east-1
       systemBucket: docbankrepositorysystem
       catModelFile: doc_cat_model2.bin
+    dynamodb:
+      serviceEndPoint: dynamodb.us-east-1.amazonaws.com
+      signingRegion: us-east-1
   mq:
     upload:
       topicExchangeName: myDocumentUploadExchange

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.HashMap;
 
 @Service
 @Slf4j
@@ -18,6 +19,8 @@ public class MyDocumentParsingService {
     private String signingRegion;
     @Autowired
     MyTextractCreator myTextractCreator;
+    @Autowired
+    MyDynamoDbService myDynamoDbService;
 
     /**
      * This is to persist metadata for a document uploaded.
@@ -33,7 +36,10 @@ public class MyDocumentParsingService {
         if (myTextract.getTextType().equals(MyDocumentConstants.IMAGE)){
             String text = myTextract.getText(myDocumentInS3.getDocument(),myDocumentInS3.getBucket());
             log.info("text======>>  "+text);
-
+            HashMap<String,String> dataToAdd = new HashMap<>();
+            dataToAdd.put("etag",myDocumentInS3.getEtag());
+            dataToAdd.put("text",text);
+            myDynamoDbService.addItem(dataToAdd);
         }else if(myTextract.getTextType().equals(MyDocumentConstants.PDF)){
             String jobId = myTextract.getText(myDocumentInS3.getDocument(),myDocumentInS3.getBucket());
             log.info("after myTextract.getText for PDF");

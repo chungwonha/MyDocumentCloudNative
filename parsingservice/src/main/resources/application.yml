@@ -13,6 +13,9 @@ mydocument:
     textract:
       serviceEndpoint: https://textract.us-east-1.amazonaws.com
       signingRegion: us-east-1
+    dynamodb:
+      serviceEndPoint: dynamodb.us-east-1.amazonaws.com
+      signingRegion: us-east-1
   mq:
     upload:
       topicExchangeName: myDocumentUploadExchange

@@ -1,9 +1,11 @@
 package com.chung.product.mydocumentCN.parsingservice;
 
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.textract.model.Block;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class MyDocumentUtil {
@@ -38,7 +40,10 @@ public class MyDocumentUtil {
         return text.replaceAll("null","");
     }
 
+
     public static void main(String[] s){
         logger.debug(getOwnerIdFromDocumentKey("1/sdfdsf.pdf"));
     }
+
+
 }

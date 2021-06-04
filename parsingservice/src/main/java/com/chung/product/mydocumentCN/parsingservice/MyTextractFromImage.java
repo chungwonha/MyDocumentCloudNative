@@ -31,7 +31,7 @@ public class MyTextractFromImage extends MyTextractSuper{
 
         AnalyzeDocumentRequest request = new AnalyzeDocumentRequest()
                 .withFeatureTypes("TABLES","FORMS")
-                .withDocument(new Document().withS3Object(new S3Object().withName(document).withBucket(bucket)));
+                .withDocument(new com.amazonaws.services.textract.model.Document().withS3Object(new S3Object().withName(document).withBucket(bucket)));
 
         AnalyzeDocumentResult result = client.analyzeDocument(request);
 

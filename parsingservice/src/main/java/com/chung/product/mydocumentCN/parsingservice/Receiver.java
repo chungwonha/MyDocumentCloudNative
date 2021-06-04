@@ -30,9 +30,12 @@ public class Receiver {
         log.info("-------------------->   "+this.serviceEndPoint+"/"+msgTokens[0]+ "<----------------------------");
         MyDocumentInS3 myDocumentInS3 = restTemplate.getForObject(this.serviceEndPoint+"/"+msgTokens[0],
                                                                     MyDocumentInS3.class);
+        myDocumentInS3.setEtag(msgTokens[1]);
         log.info("myDocumentInS3.getDocument():"+myDocumentInS3.getDocument());
+        log.info("myDocumentInS3.getEtag(): "+myDocumentInS3.getEtag());
         log.info("myDocumentInS3.getContentType(): "+myDocumentInS3.getContentType());
         myDocumentParsingService.parse(myDocumentInS3);
+
         latch.countDown();
     }
 
