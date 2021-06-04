@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UploadRecordRepository extends CrudRepository<UploadRecord,Long> {
-    Optional<UploadRecord> findByDocId(String docId);
-    List<UploadRecord> findByUserId(String docId);
+    Optional<UploadRecord> findByEtag(String etag);
+    List<UploadRecord> findByUserId(String userId);
 
 }

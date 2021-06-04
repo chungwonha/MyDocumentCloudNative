@@ -217,11 +217,11 @@ public class MyDocumentS3Service implements StorageService{
             logger.info(file.getName()+ " upload success");
             String etag = upload(tempFile,this.userBucket,file.getOriginalFilename(),ownerId);
             UploadRecord uploadRecord = new UploadRecord();
-            uploadRecord.setDocId(etag);
+            uploadRecord.setEtag(etag);
             uploadRecord.setUserId(ownerId);
             uploadRecord.setDocName(file.getOriginalFilename());
             uploadRecordRepository.save(uploadRecord);
-            return StorageServiceConstants.UPLOAD_SUCCESS;
+            return etag+":"+StorageServiceConstants.UPLOAD_SUCCESS;
         } catch (IOException e) {
             e.printStackTrace();
         }

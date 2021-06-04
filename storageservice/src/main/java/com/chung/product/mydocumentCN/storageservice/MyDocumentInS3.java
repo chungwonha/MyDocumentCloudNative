@@ -12,7 +12,7 @@ public class MyDocumentInS3 {
     private String bucket;
     private String contentType;
     private com.amazonaws.services.s3.model.S3Object s3object;
-
+    private String etag;
 
 //    public BufferedImage getDocumentFromS3() throws Exception{
 //
@@ -54,9 +54,15 @@ public class MyDocumentInS3 {
         this.contentType = contentType;
     }
 
+    public String getEtag() {
+        return etag;
+    }
 
+    public void setEtag(String etag) {
+        this.etag = etag;
+    }
 
-//    public static void main(String[] s){
+    //    public static void main(String[] s){
 //        String document = "1/IMG_4842.jpg";//2017 Disclosure Report Master.pdf";//IMG_4842.jpg";
 //        String bucket = "docbankrepository";
 //        MyDocumentInS3 myDocumentInS3 = new MyDocumentInS3(document,bucket);

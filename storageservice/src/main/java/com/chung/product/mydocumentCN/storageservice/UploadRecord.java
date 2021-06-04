@@ -1,7 +1,5 @@
 package com.chung.product.mydocumentCN.storageservice;
 
-import org.springframework.data.annotation.CreatedDate;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +12,7 @@ public class UploadRecord extends PersistableEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String docId;
+    private String etag;
     private String userId;
     private String docName;
 
@@ -26,12 +24,12 @@ public class UploadRecord extends PersistableEntity{
         this.id = id;
     }
 
-    public String getDocId() {
-        return docId;
+    public String getEtag() {
+        return etag;
     }
 
-    public void setDocId(String docId) {
-        this.docId = docId;
+    public void setEtag(String etag) {
+        this.etag = etag;
     }
 
     public String getUserId() {
