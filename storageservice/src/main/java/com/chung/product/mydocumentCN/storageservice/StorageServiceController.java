@@ -44,4 +44,5 @@ public class StorageServiceController {
         logger.info("myDocumentInS3.getContentType(): "+myDocumentInS3.getContentType());
         return myDocumentInS3;
     }
+
 }

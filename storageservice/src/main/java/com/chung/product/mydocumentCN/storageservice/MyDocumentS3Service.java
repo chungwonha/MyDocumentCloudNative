@@ -4,10 +4,7 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectResult;
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.services.s3.model.*;
 //import com.chung.product.mydocument.vo.MyDocumentInS3;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -90,6 +87,15 @@ public class MyDocumentS3Service implements StorageService{
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(0);
         String fileExtension = getFileExtenstion(documentName);
+        ObjectListing objectListing = this.s3client.listObjects(bucketName);
+        for(String s : objectListing.getCommonPrefixes()) {
+            logger.info("s: "+s);
+        }
+        logger.info("-----------------------------");
+        for(S3ObjectSummary os : objectListing.getObjectSummaries()){
+            logger.info("os.getKey(): "+os.getKey());
+
+        }
 
         if(fileExtension.toLowerCase().equals("jpg")||fileExtension.toLowerCase().equals("jpeg")||fileExtension.toLowerCase().equals("png")){
             logger.info(documentName+" is "+ContentType.IMAGE_JPEG.toString());

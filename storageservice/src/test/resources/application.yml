@@ -6,7 +6,7 @@ mydocument:
       serviceEndpoint: https://s3.amazonaws.com
       signingRegion: us-east-1
       systemBucket: docbankrepositorysystem
-      userBucket: docbankrepository
+      userBucket: docbankrepositorytest
       catModelFile: doc_cat_model2.bin
   mq:
     upload:
