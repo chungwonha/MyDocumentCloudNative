@@ -1,7 +1,9 @@
 package com.chung.product.mydocumentCN.parsingservice;
 
 import com.amazonaws.client.builder.AwsClientBuilder;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
+@ConfigurationProperties("mydocument.aws.textract")
 public abstract class MyTextractSuper implements MyTextract{
 
 

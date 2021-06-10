@@ -9,12 +9,16 @@ mydocument:
       serviceEndpoint: https://s3.amazonaws.com
       signingRegion: us-east-1
       systemBucket: docbankrepositorysystem
+      userBucket: docbankrepository
       catModelFile: doc_cat_model2.bin
     textract:
       serviceEndpoint: https://textract.us-east-1.amazonaws.com
       signingRegion: us-east-1
     dynamodb:
       serviceEndPoint: dynamodb.us-east-1.amazonaws.com
+      signingRegion: us-east-1
+    sqs:
+      queueUrl: https://sqs.us-east-1.amazonaws.com/079960855147/TextExtractForPDF
       signingRegion: us-east-1
   mq:
     upload:

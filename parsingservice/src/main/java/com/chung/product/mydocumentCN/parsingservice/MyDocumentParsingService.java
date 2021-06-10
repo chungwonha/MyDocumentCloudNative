@@ -33,23 +33,24 @@ public class MyDocumentParsingService {
 
         MyTextract myTextract = myTextractCreator.getMyTextract(myDocumentInS3);
 
-        if (myTextract.getTextType().equals(MyDocumentConstants.IMAGE)){
+        //if (myTextract.getTextType().equals(MyDocumentConstants.IMAGE)){
             String text = myTextract.getText(myDocumentInS3.getDocument(),myDocumentInS3.getBucket());
             log.info("text======>>  "+text);
             HashMap<String,String> dataToAdd = new HashMap<>();
             dataToAdd.put("etag",myDocumentInS3.getEtag());
             dataToAdd.put("text",text);
             myDynamoDbService.addItem(dataToAdd);
-        }else if(myTextract.getTextType().equals(MyDocumentConstants.PDF)){
-            String jobId = myTextract.getText(myDocumentInS3.getDocument(),myDocumentInS3.getBucket());
-            log.info("after myTextract.getText for PDF");
-            if (jobId != null) {
-                log.info("jobId in persistDocument method: " + jobId);
-
-            } else {
-                log.info("jobId is null");
-            }
-        }
+        //}
+//        else if(myTextract.getTextType().equals(MyDocumentConstants.PDF)){
+//            String jobId = myTextract.getText(myDocumentInS3.getDocument(),myDocumentInS3.getBucket());
+//            log.info("after myTextract.getText for PDF");
+//            if (jobId != null) {
+//                log.info("jobId in persistDocument method: " + jobId);
+//
+//            } else {
+//                log.info("jobId is null");
+//            }
+//        }
         log.info("-------------------persistDocument ends-----------------");
     }
 }

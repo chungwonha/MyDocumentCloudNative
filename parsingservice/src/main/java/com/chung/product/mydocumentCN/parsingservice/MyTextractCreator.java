@@ -29,10 +29,13 @@ public class MyTextractCreator {
     public MyTextract getMyTextract(MyDocumentInS3 myDocumentInS3){
 
         String fileExtenstion = MyDocumentUtil.getFileExtenstion(myDocumentInS3.getDocument());
+        logger.info("fileExtension: "+fileExtenstion);
         String contentType =myDocumentInS3.getContentType();
         if(fileExtenstion.toLowerCase().equals("pdf")){
             return this.myTextractFromPdf;//new MyTextractFromPdf(serviceEndpoint,signingRegion);
-        }else if(fileExtenstion.toLowerCase().equals("jpeg")||fileExtenstion.toLowerCase().equals("jpg")||fileExtenstion.toLowerCase().equals("png")) {
+        }
+        else
+            if(fileExtenstion.toLowerCase().equals("jpeg")||fileExtenstion.toLowerCase().equals("jpg")||fileExtenstion.toLowerCase().equals("png")) {
             return this.myTextractFromImage;//new MyTextractFromImage(serviceEndpoint,signingRegion);
         }
 //        else if(myDocumentInS3.getContentType().equals("application/octet-stream")){
@@ -41,11 +44,11 @@ public class MyTextractCreator {
         return null;
     }
 
-    @Bean
-    public MyTextractFromPdf getMyTextractFromPdf(){
-        return this.myTextractFromPdf;
-
-    }
+//    @Bean
+//    public MyTextractFromPdf getMyTextractFromPdf(){
+//        return this.myTextractFromPdf;
+//
+//    }
 
     @Bean
     public MyTextractFromImage getMyTextractFromImage(){
