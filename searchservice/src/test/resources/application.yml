@@ -1,0 +1,7 @@
+mydocument:
+  aws:
+    cloudsearch:
+      searchEndPointUrl: ${MYDOCUMENT_CLOUDSEARCH_ENDPOINT}
+      serviceEndpoint: ${MYDOCUMENT_CLOUDSEARCH_ENDPOINT}
+      signingRegion: us-east-1
+
