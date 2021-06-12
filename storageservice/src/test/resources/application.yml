@@ -14,8 +14,13 @@ mydocument:
       queueName: myDocumentUploadQuque
       routingKey: mydocument.upload.key
 spring:
+#  datasource:
+#    url: jdbc:tc:postgresql:13:///
   datasource:
-    url: jdbc:tc:postgresql:13:///
+    username: ${POSTGRES_USER_STORAGEDB}
+    password: ${POSTGRES_PASS_STORAGEDB}
+    #    url: jdbc:postgresql://mydocument-storage-db:5432/mydocument_storage_db
+    url: jdbc:postgresql://localhost:5432/mydocument_storage_db
   jpa:
     hibernate.ddl-auto: validate
   profiles:

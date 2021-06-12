@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -61,8 +62,25 @@ public class MyDocumentS3Service implements StorageService{
         S3Object s3object = this.s3client.getObject(this.userBucket, ownerId+this.SUFFIX+documentName);
         logger.info("s3object.getKey(): "+s3object.getKey());
         myDocumentInS3.setContentType(s3object.getObjectMetadata().getContentType());
-
+        myDocumentInS3.setEtag(s3object.getObjectMetadata().getETag());
         return myDocumentInS3;
+    }
+
+    public MyDocumentInS3 getDocumentByEtag(String etag){
+        logger.info("getDocumentByEtag for "+etag);
+        Optional<UploadRecord> result = uploadRecordRepository.findByEtag(etag);
+        if(!result.isEmpty()){
+            UploadRecord uploadRecord = result.get();
+            MyDocumentInS3 myDocumentInS3 = new MyDocumentInS3();
+            myDocumentInS3.setDocument(uploadRecord.getDocName());
+            myDocumentInS3.setDocument(uploadRecord.getUserId()+"/"+uploadRecord.getDocName());
+            myDocumentInS3.setEtag(uploadRecord.getEtag());
+            return myDocumentInS3;
+        }else{
+            logger.info("uploadResult is empty");
+        }
+
+        return new MyDocumentInS3();
     }
 
     /**

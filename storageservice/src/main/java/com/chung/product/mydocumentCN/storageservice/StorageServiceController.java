@@ -45,4 +45,11 @@ public class StorageServiceController {
         return myDocumentInS3;
     }
 
+    @GetMapping("/{etag}")
+    public MyDocumentInS3 getMyDocumentByEtag(@PathVariable("etag") String etag){
+        logger.info("getMyDocumentByEtag");
+        MyDocumentInS3 myDocumentInS3 = storageService.getDocumentByEtag(etag);
+        return myDocumentInS3;
+    }
+
 }

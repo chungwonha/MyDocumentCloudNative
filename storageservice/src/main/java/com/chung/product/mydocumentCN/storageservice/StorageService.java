@@ -23,4 +23,6 @@ public interface StorageService {
     void deleteObject(String bucket, String object);
 
     public MyDocumentInS3 getDocument(String documentName, String ownerId);
+
+    public MyDocumentInS3 getDocumentByEtag(String etag);
 }
