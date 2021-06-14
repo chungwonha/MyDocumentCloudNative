@@ -34,15 +34,13 @@ public class MyTextractFromPdf extends MyTextractSuper{
         FileOutputStream fos = null;
         AmazonS3 s3 = AmazonS3ClientBuilder.standard().withEndpointConfiguration(endpoint).build();
         try {
-            /* First way to Get Object from Amazon S3 */
 
-            /* Send Get Object Bucket Request */
+            /*
+              Get an object from S3 Bucket and put in InputStream
+              Write to a file
+             */
             S3Object object = s3.getObject(bucket, document);
-
-            /* Get Object InputStream */
             inputStream = object.getObjectContent();
-
-            /* Write InputStream Data to File */
             String fileName = document.split("/")[1];
             fos = new FileOutputStream(new File(fileName));
             byte[] buffer = new byte[1024];
