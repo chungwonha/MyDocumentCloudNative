@@ -13,7 +13,12 @@ mydocument:
       topicExchangeName: myDocumentUploadExchange
       queueName: myDocumentUploadQuque
       routingKey: mydocument.upload.key
+      mqEnabled: true
 spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 15MB
   rabbitmq:
 #    host: mydocument-mq-broker
     host: ${SPRING_RABBITMQ_HOST}
@@ -32,4 +37,4 @@ spring:
       pool-name: mydocument-storage-db-pool
 #      pool-name: polardb-catalog-pool
   jpa:
-    hibernate.ddl-auto: create-drop
+    hibernate.ddl-auto: update

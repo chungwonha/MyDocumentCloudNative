@@ -9,6 +9,7 @@ public class MyDocumentMqConfig {
     private String topicExchangeName;
     private String queueName;
     private String routingKey;
+    private boolean mqEnabled;
 
     public String getTopicExchangeName() {
         return topicExchangeName;
@@ -33,4 +34,6 @@ public class MyDocumentMqConfig {
     public void setRoutingKey(String routingKey) {
         this.routingKey = routingKey;
     }
+
+
 }

@@ -19,8 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import static java.util.Comparator.comparing;
 
 /**
  * Author: Chung Ha
@@ -68,19 +71,26 @@ public class MyDocumentS3Service implements StorageService{
 
     public MyDocumentInS3 getDocumentByEtag(String etag){
         logger.info("getDocumentByEtag for "+etag);
-        Optional<UploadRecord> result = uploadRecordRepository.findByEtag(etag);
+        Optional<List<UploadRecord>> result = uploadRecordRepository.findByEtag(etag);
         if(!result.isEmpty()){
-            UploadRecord uploadRecord = result.get();
-            MyDocumentInS3 myDocumentInS3 = new MyDocumentInS3();
-            myDocumentInS3.setDocument(uploadRecord.getDocName());
-            myDocumentInS3.setDocument(uploadRecord.getUserId()+"/"+uploadRecord.getDocName());
-            myDocumentInS3.setEtag(uploadRecord.getEtag());
-            return myDocumentInS3;
+            List<UploadRecord> uploadRecordsList = result.get();
+            Optional<UploadRecord> lastUploadRecord = uploadRecordsList.stream().max(comparing(UploadRecord::getLastModifiedDate));
+            if(!lastUploadRecord.isEmpty()) {
+
+                UploadRecord uploadRecord = lastUploadRecord.get();
+                MyDocumentInS3 myDocumentInS3 = new MyDocumentInS3();
+                myDocumentInS3.setDocument(uploadRecord.getDocName());
+                myDocumentInS3.setDocument(uploadRecord.getUserId() + "/" + uploadRecord.getDocName());
+                myDocumentInS3.setEtag(uploadRecord.getEtag());
+                return myDocumentInS3;
+            }else{
+                logger.info("No last upload record");
+            }
         }else{
             logger.info("uploadResult is empty");
         }
 
-        return new MyDocumentInS3();
+        return null;
     }
 
     /**
@@ -110,10 +120,10 @@ public class MyDocumentS3Service implements StorageService{
             logger.info("s: "+s);
         }
         logger.info("-----------------------------");
-        for(S3ObjectSummary os : objectListing.getObjectSummaries()){
-            logger.info("os.getKey(): "+os.getKey());
-
-        }
+//        for(S3ObjectSummary os : objectListing.getObjectSummaries()){
+//            logger.info("os.getKey(): "+os.getKey());
+//
+//        }
 
         if(fileExtension.toLowerCase().equals("jpg")||fileExtension.toLowerCase().equals("jpeg")||fileExtension.toLowerCase().equals("png")){
             logger.info(documentName+" is "+ContentType.IMAGE_JPEG.toString());

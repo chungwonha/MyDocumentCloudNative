@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @RestController
 @RequestMapping("storage")
 public class StorageServiceController {
@@ -31,10 +35,15 @@ public class StorageServiceController {
         oum.setObjectKey(ownerId+"/"+file.getOriginalFilename());
         oum.setStatus(status);
         logger.info(myDocumentUploadMessenger ==null?"myDocumentMessenger NULL":"myDocumentMessenger NOT NULL");
-        logger.info("rabbitTemplate.getConnectionFactory().getUsername(): "+rabbitTemplate.getConnectionFactory().getUsername());
-        rabbitTemplate.convertAndSend(myDocumentUploadMessenger.getTopicExchangeName(),
-                                      myDocumentUploadMessenger.getRoutingKey(),
-                                     ownerId+"/"+file.getOriginalFilename()+":"+status);
+        if(myDocumentUploadMessenger.isMqEnabled()) {
+            logger.info("upload mq is enabled");
+            logger.info("rabbitTemplate.getConnectionFactory().getUsername(): " + rabbitTemplate.getConnectionFactory().getUsername());
+            rabbitTemplate.convertAndSend(myDocumentUploadMessenger.getTopicExchangeName(),
+                    myDocumentUploadMessenger.getRoutingKey(),
+                    ownerId + "/" + file.getOriginalFilename() + ":" + status);
+        }else{
+            logger.info("upload mq is not enabled");
+        }
         return status;
     }
 
@@ -45,11 +54,20 @@ public class StorageServiceController {
         return myDocumentInS3;
     }
 
-    @GetMapping("/{etag}")
-    public MyDocumentInS3 getMyDocumentByEtag(@PathVariable("etag") String etag){
+    @GetMapping("/{etags}")
+    public MyDocumentInS3[] getMyDocumentByEtags(@PathVariable("etags") String[] etags){
         logger.info("getMyDocumentByEtag");
-        MyDocumentInS3 myDocumentInS3 = storageService.getDocumentByEtag(etag);
-        return myDocumentInS3;
+        ArrayList<MyDocumentInS3> myDocumentInS3List = new ArrayList<>();
+        Arrays.stream(etags).forEach(a->{
+            MyDocumentInS3 myDocumentInS3 = storageService.getDocumentByEtag(a);
+            if(myDocumentInS3!=null) {
+                myDocumentInS3List.add(myDocumentInS3);
+            }
+        });
+        MyDocumentInS3[] myDocumentInS3s = new MyDocumentInS3[myDocumentInS3List.size()];
+        return myDocumentInS3List.toArray(myDocumentInS3s);
     }
+
+
 
 }

@@ -20,6 +20,7 @@ public class MyDocumentUploadMessenger {
     private String topicExchangeName;
     private String queueName;
     private String routingKey;
+    private boolean mqEnabled;
 
     @Bean
     Queue queue() {
@@ -60,6 +61,13 @@ public class MyDocumentUploadMessenger {
         this.routingKey = routingKey;
     }
 
+    public boolean isMqEnabled() {
+        return mqEnabled;
+    }
+
+    public void setMqEnabled(boolean mqEnabled) {
+        this.mqEnabled = mqEnabled;
+    }
     //    @Bean
 //    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
 //                                             MessageListenerAdapter listenerAdapter) {

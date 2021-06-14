@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UploadRecordRepository extends CrudRepository<UploadRecord,Long> {
-    Optional<UploadRecord> findByEtag(String etag);
+    Optional<List<UploadRecord>> findByEtag(String etag);
     List<UploadRecord> findByUserId(String userId);
 //    Optional<UploadRecord> findByDocumentAndUserId(String document, String userId);
 
