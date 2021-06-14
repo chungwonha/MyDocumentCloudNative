@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @SpringBootTest
@@ -17,8 +19,9 @@ public class MyDocumentSearchServiceTest {
 
     @Test
     public void testSearch(){
-        List<Hit> results = myDocumentSearchService.search("pet");
-        results.stream().forEach(h->log.info(h.getId()));
+        MyDocumentInS3[] results = myDocumentSearchService.search("pet");
+        Arrays.stream(results).map(MyDocumentInS3::getDocument).forEach(System.out::println);
+//        results.keySet().stream().forEach(System.out::println);
 
     }
 }

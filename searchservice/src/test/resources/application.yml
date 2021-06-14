@@ -1,4 +1,6 @@
 mydocument:
+  service:
+    storageServiceEndPoint: http://localhost:8081/storage
   aws:
     cloudsearch:
       searchEndPointUrl: ${MYDOCUMENT_CLOUDSEARCH_ENDPOINT}
