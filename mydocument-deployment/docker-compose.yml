@@ -37,6 +37,16 @@ services:
       - POSTGRES_USER_STORAGEDB=${POSTGRES_USER_STORAGEDB}
       - POSTGRES_PASS_STORAGEDB=${POSTGRES_PASS_STORAGEDB}
       - MYDOCUMENT_SERVICE_STORAGE_SERVICEENDPOINT=${MYDOCUMENT_SERVICE_STORAGE_SERVICEENDPOINT}
+  search-service:
+    image: "chungha/searchservice"
+    container_name: "search-service"
+    ports:
+      - 8083:8083
+    environment:
+      - MYDOCUMENT_CLOUDSEARCH_ENDPOINT=${MYDOCUMENT_CLOUDSEARCH_ENDPOINT}
+      - MYDOCUMENT_SERVICE_STORAGESERVICEENDPOINT=${MYDOCUMENT_SERVICE_STORAGE_SERVICEENDPOINT}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
   mydocument-storage-db:
     image: "postgres:13"
     container_name: "mydocument-storage-db"
