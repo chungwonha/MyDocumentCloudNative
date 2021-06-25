@@ -16,10 +16,12 @@ public class UploadRecordRepositoryTest {
         String etag1="test_etag123";
         String docName = "testDocName";
         String userId = "test user id";
+        String docCatByUser = "99";
         UploadRecord ur = new UploadRecord();
         ur.setEtag(etag1);
         ur.setDocName(docName);
         ur.setUserId(ur.getEtag());
+        ur.setDocCategoryByUser("BILL");
         uploadRecordRepository.save(ur);
 
         String etag2="test_etag9999";

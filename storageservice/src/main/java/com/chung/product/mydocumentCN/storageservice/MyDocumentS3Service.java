@@ -236,7 +236,7 @@ public class MyDocumentS3Service implements StorageService{
     }
 
     @Override
-    public String store(MultipartFile file, String ownerId) {
+    public String store(MultipartFile file, String ownerId, String docCatByUser) {
         logger.info("store");
         logger.info("file name: "+file.getName());
         logger.info("original file name: "+file.getOriginalFilename());
@@ -254,6 +254,7 @@ public class MyDocumentS3Service implements StorageService{
             uploadRecord.setEtag(etag);
             uploadRecord.setUserId(ownerId);
             uploadRecord.setDocName(file.getOriginalFilename());
+            uploadRecord.setDocCategoryByUser(docCatByUser);
             uploadRecordRepository.save(uploadRecord);
             return etag+":"+StorageServiceConstants.UPLOAD_SUCCESS;
         } catch (IOException e) {

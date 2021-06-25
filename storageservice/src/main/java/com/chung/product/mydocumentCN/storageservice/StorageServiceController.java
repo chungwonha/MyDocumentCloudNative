@@ -27,10 +27,11 @@ public class StorageServiceController {
 
     @PostMapping
     public String upload(@RequestParam("file") MultipartFile file,
-                         @RequestParam("ownerId") String ownerId){
+                         @RequestParam("ownerId") String ownerId,
+                         @RequestParam("docCatByUser") String docCatByUser){
         logger.info("upload");
 
-        String status = storageService.store(file,ownerId);
+        String status = storageService.store(file,ownerId, docCatByUser);
         ObjectUploadedMessage oum = new ObjectUploadedMessage();
         oum.setObjectKey(ownerId+"/"+file.getOriginalFilename());
         oum.setStatus(status);

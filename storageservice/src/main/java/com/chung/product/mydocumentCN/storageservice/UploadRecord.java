@@ -15,6 +15,8 @@ public class UploadRecord extends PersistableEntity{
     private String etag;
     private String userId;
     private String docName;
+    private String docCategory;
+    private String docCategoryByUser;
 
     public Long getId() {
         return id;
@@ -46,5 +48,21 @@ public class UploadRecord extends PersistableEntity{
 
     public void setDocName(String docName) {
         this.docName = docName;
+    }
+
+    public String getDocCategory() {
+        return docCategory;
+    }
+
+    public void setDocCategory(String docCategory) {
+        this.docCategory = docCategory;
+    }
+
+    public String getDocCategoryByUser() {
+        return docCategoryByUser;
+    }
+
+    public void setDocCategoryByUser(String docCategoryByUser) {
+        this.docCategoryByUser = docCategoryByUser;
     }
 }

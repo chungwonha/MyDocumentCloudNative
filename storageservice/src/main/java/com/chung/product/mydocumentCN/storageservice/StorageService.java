@@ -10,7 +10,7 @@ public interface StorageService {
 
     void init();
 
-    String store(MultipartFile file, String ownerId);
+    String store(MultipartFile file, String ownerId, String docCatByUser);
 
     Stream<Path> loadAll();
 
