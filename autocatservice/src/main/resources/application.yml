@@ -1,0 +1,15 @@
+spring:
+  cloud:
+    function:
+      definition: trainautocat
+    stream:
+      bindings:
+        trainautocat-in-0:
+          destination: parse-completed
+          group: parse-autocat
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
+    connection-timeout: 15s
