@@ -10,6 +10,6 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: user
-    password: password
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASSWORD}
     connection-timeout: 15s
